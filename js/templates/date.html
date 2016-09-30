@@ -1,0 +1,17 @@
+<div class="panel panel-default">
+  <div class="panel-heading"><h3>Trading History for {{ currentDate | date }}</h3></div>
+
+  <div class="panel-body">
+
+      <h5>Slide To Choose A Date</h5>
+
+      <input type="range" name="points" min="0" max="{{ dates.length - 1}}" ng-model="index">
+
+    <div class="row">
+      <div class="col-xs-2">{{ minDate | date }}</div>
+      <div class="col-xs-offset-8 col-xs-2">{{ maxDate | date }}</div>
+
+    </div>
+
+  </div>
+</div>

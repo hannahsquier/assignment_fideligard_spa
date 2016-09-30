@@ -1,0 +1,28 @@
+<div class="panel panel-default">
+  <div class="panel-heading"><h3>Stocks</h3></div>
+
+  <div class="panel-body">
+
+  <table class="table">
+    <tr>
+      <th>Symbol</th>
+      <th>Price</th>
+      <th>1 day</th>
+      <th>7 day</th>
+      <th>30 day</th>
+      <th>Trade?</th>
+
+    </tr>
+    <tr ng-repeat="data in stockData | filterByDate : dateInfo.currentDate">
+      <td>{{ data["Symbol"] }}</td>
+      <td>{{ data["Open"] }}</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><a href="">Trade</a></td>
+    </tr>
+  {{ dateInfo.currentDate }}
+  </table>
+
+  </div>
+</div>
