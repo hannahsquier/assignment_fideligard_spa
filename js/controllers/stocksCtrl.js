@@ -1,12 +1,16 @@
 app.controller("stocksCtrl", ["$scope", "stocksService", "dateService", "_", function($scope, stocksService, dateService, _) {
-  stocksService.retrieveStockData("AAPL");
 
-  $scope.dateInfo = dateService.getDateInfo();
-console.log($scope.dateInfo)
-  $scope.currentDate = dateService.getCurrentDate();
 
   stocksService.retrieveStockData().then( function() {
+    $scope.dateInfo = dateService.getDateInfo();
     $scope.stockData = _.flattenDeep(stocksService.getStockData());
+
+    $scope.$watch("dateInfo.currentDate", function() {
+      $scope.deltaData = { "1": stocksService.getDelta($scope.dateInfo.currentDate, 1),
+                         "7": stocksService.getDelta($scope.dateInfo.currentDate, 7),
+                        "30": stocksService.getDelta($scope.dateInfo.currentDate, 30)}
+
+    })
   })
 
 }])

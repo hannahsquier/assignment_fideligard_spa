@@ -1,7 +1,7 @@
 <div class="panel panel-default">
   <div class="panel-heading"><h3>Stocks</h3></div>
 
-  <div class="panel-body">
+  <div class="panel-body ">
 
   <table class="table">
     <tr>
@@ -16,11 +16,19 @@
 
     <tr ng-repeat="data in stockData | filterByDate: dateInfo.currentDate" >
       <td>{{ data["Symbol"] }}</td>
-      <td>{{ data["Open"] }}</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td><a href="">Trade</a></td>
+      <td>{{ data["Open"]  | currency}}</td>
+
+      <td ng-class="{neg: deltaData['1'][data['Symbol']] < 0}">
+        {{ deltaData["1"][data["Symbol"]] | currency}}
+      </td>
+      <td ng-class="{neg: deltaData['7'][data['Symbol']] < 0}">
+        {{ deltaData["7"][data["Symbol"]] | currency}}
+      </td>
+      <td ng-class="{neg: deltaData['30'][data['Symbol']]< 0}">
+        {{ deltaData["30"][data["Symbol"]] | currency}}
+      </td>
+
+      <td><a ui-sref="home.trade({sym: data['Symbol'], date: dateInfo.currentDate, price: data['Open']})">Trade</a></td>
     </tr>
   </table>
 

@@ -1,0 +1,27 @@
+<h1>Trade</h1>
+
+  <label>Stock Symbol:</label>
+  <input type="text" value="{{ tradeData.Symbol }}">
+
+  <br>
+
+  <select>
+    <option>Buy</option>
+    <option>Sell</option>
+  </select>
+
+  <label>Num Shares</label>
+  <input type="text" value="100" ng-model="numShares">
+
+  <label>Date</label>
+  <input type="text" value="{{ tradeData.Date | date }}">
+
+
+  <h5>Price: {{ tradeData['Price'] | currency }}</h5>
+  <h5>Cost: {{ tradeData['Price'] * numShares| currency }}</h5>
+
+  <input type="submit" value="Place Order" class="btn btn-success">
+
+
+{{ tradeData }}
+

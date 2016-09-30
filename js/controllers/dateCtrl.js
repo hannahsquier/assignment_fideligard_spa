@@ -5,7 +5,6 @@ app.controller("dateCtrl", ["$scope", "dateService", "stocksService", function($
   stocksService.retrieveStockData().then( function() {
 
     $scope.dates = dateService.getDates(stocksService.getStockData()[0])
-    console.log($scope.dates)
     $scope.index = $scope.dates.length / 2;
 
     $scope.$watch("index", function() {

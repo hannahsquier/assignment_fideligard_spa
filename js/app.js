@@ -31,4 +31,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   })
+
+  $stateProvider.state("home.trade", {
+    url: "trade",
+    params: {sym: "", date: "", price: "" },
+    views: {
+      "trade@home": {
+        templateUrl: "js/templates/trade.html",
+        controller: "tradeCtrl"
+
+      }
+    }
+  })
 })
