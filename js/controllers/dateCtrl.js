@@ -2,8 +2,10 @@ app.controller("dateCtrl", ["$scope", "dateService", "stocksService", function($
   $scope.minDate = dateService.getDateRange().min
   $scope.maxDate = dateService.getDateRange().max
 
-  stocksService.retrieveStockData("AAPL").then( function() {
-    $scope.dates = dateService.getDates(stocksService.getStockData())
+  stocksService.retrieveStockData().then( function() {
+
+    $scope.dates = dateService.getDates(stocksService.getStockData()[0])
+    console.log($scope.dates)
     $scope.index = $scope.dates.length / 2;
 
     $scope.$watch("index", function() {

@@ -13,7 +13,8 @@
       <th>Trade?</th>
 
     </tr>
-    <tr ng-repeat="data in stockData | filterByDate : dateInfo.currentDate">
+
+    <tr ng-repeat="data in stockData | filterByDate: dateInfo.currentDate" >
       <td>{{ data["Symbol"] }}</td>
       <td>{{ data["Open"] }}</td>
       <td></td>
@@ -21,7 +22,6 @@
       <td></td>
       <td><a href="">Trade</a></td>
     </tr>
-  {{ dateInfo.currentDate }}
   </table>
 
   </div>
