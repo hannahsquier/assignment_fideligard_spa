@@ -64,23 +64,25 @@ app.factory("stocksService", ["$http", "$q", "_", function($http, $q, _) {
 
 
   var _getPastDate = function(date, days) {
-    var dates = []
 
-    for(var i in _stockData[0]) {
-      var tempDate = new Date(_stockData[0][i]["Date"]+ "T22:56:02.038Z");
+      var dates = [];
+      for(var i in _stockData[0]) {
+        dates.push(new Date(_stockData[0][i]["Date"] + "T22:56:02.038Z"))
+      }
+      dates = dates.reverse()
 
-      if(_datesMatch(tempDate, date)) { break; }
-
-      dates.push(new Date(_stockData[0][i]["Date"] + "T22:56:02.038Z"))
+    for(var i in dates) {
+      var tempDate = dates[i];
+      // console.log(date, tempDate)
+      if(_datesMatch(tempDate, date)) {  var count = i }
     }
-    console.log(i)
-    return dates[ i - days ]
+
+    return dates[count - days]
   }
 
   var getDelta = function(currentDate, days) {
     var pastData = {}
     var pastDate = _getPastDate(currentDate, days);
-    console.log(pastDate)
 
     // new Date(currentDate)
     // pastDate.setDate(pastDate.getDate() - days)

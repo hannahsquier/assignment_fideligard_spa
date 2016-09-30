@@ -20,7 +20,6 @@ app.factory("dateService", ["stocksService", function(stocksService) {
     return { min: _dateInfo.minDate, max: _dateInfo.maxDate }
   }
 
-
   var _getDatesFromStockData = function(stockData) {
     for(var i in stockData) {
       _dates.push(new Date(stockData[i]["Date"] + "T22:56:02.038Z"))
