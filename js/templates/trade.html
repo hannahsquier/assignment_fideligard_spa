@@ -1,5 +1,17 @@
 <div class="panel panel-default">
-  <div class="panel-heading"><h3>Trade</h3></div>
+  <div class="panel-heading">
+
+    <select ng-model="view" ng-change="changeView(view)" class="pull-right">
+      <option value="home.transactions">Transactions</option>
+      <option value="home.trade">Trade</option>
+      <option value="home.portfolio">Portfolio</option>
+    </select>
+
+  <h3>Trade</h3>
+
+</div>
+
+
 
   <div class="panel-body ">
     <label>Stock Symbol:</label>

@@ -1,2 +1,66 @@
-<div ui-view="trade"></div>
-<div ui-view="transactions"></div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+
+    <select ng-model="view" ng-change="changeView(view)" class="pull-right">
+      <option value="home.transactions">Transactions</option>
+      <option value="home.trade">Trade</option>
+      <option value="home.portfolio">Portfolio</option>
+    </select>
+
+  <h3>Portfolio</h3>
+
+</div>
+
+  <table class="table">
+    <tr>
+
+      <th>Cost Basis</th>
+      <th>Current Value</th>
+      <th>Profit/Loss</th>
+      <th>1 day</th>
+      <th>7 day</th>
+      <th>30 day</th>
+    </tr>
+
+    <tr ng-repeat="data in stockData | filterByDate: dateInfo.currentDate" >
+
+    </tr>
+  </table>
+
+  <table class="table" class="portfolio-table">
+    <tr>
+      <th class="portfolio-table">Symbol</th>
+      <th class="portfolio-table">Quantity</th>
+      <th class="portfolio-table">Cost Basis</th>
+      <th class="portfolio-table">Current Value</th>
+      <th class="portfolio-table">Profit/Loss</th>
+      <th class="portfolio-table">Current Price</th>
+      <th class="portfolio-table">1 day</th>
+      <th class="portfolio-table">7 day</th>
+      <th class="portfolio-table">30 day</th>
+      <th class="portfolio-table">Trade?</th>
+    </tr>
+
+    <tr ng-repeat="stock in portfolio" >
+      <td class="portfolio-table">{{ stock.sym | uppercase }}</td>
+      <td class="portfolio-table">{{ stock.quantity }}</td>
+      <td class="portfolio-table">Cost Basis</td>
+      <td class="portfolio-table">{{ stock.stockInfo.currentPrice * stock.quantity | currency}}</td>
+      <td class="portfolio-table">{{ (stock.stockInfo.currentPrice - stock.buyPrice) * stock.quantity | currency }}</td>
+      <td class="portfolio-table">{{ stock.stockInfo.currentPrice | currency }}</td>
+      <td class="portfolio-table">{{ stock.stockInfo["1d"]  * stock.quantity | currency }}</td>
+      <td class="portfolio-table">{{ stock.stockInfo["7d"]  * stock.quantity | currency }}</td>
+      <td class="portfolio-table">{{ stock.stockInfo["30d"] * stock.quantity  | currency }}</td>
+      <td class="portfolio-table"><a ui-sref="home.trade({ sym: stock.sym })">Trade</a></td>
+    </tr>
+  </table>
+
+
+  <div class="panel-body ">
+
+  </div>
+</div>
+
+
+
+

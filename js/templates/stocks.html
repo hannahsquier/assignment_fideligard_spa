@@ -14,7 +14,7 @@
     </tr>
 
     <tr ng-repeat="data in stockData | filterByDate: dateInfo.currentDate" >
-      <td>{{ data["Symbol"] }}</td>
+      <td>{{ data["Symbol"] | uppercase }}</td>
       <td>{{ data["Open"]  | currency}}</td>
 
       <td ng-class="{neg: deltaData['1'][data['Symbol']] < 0}">
@@ -27,7 +27,7 @@
         {{ deltaData["30"][data["Symbol"]] | currency}}
       </td>
 
-      <td><a ui-sref="home.trade({sym: data['Symbol'], date: dateInfo.currentDate, price: data['Open']})">Trade</a></td>
+      <td><a ui-sref="home.trade({ sym: data['Symbol'] })">Trade</a></td>
     </tr>
   </table>
 

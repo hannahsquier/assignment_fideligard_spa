@@ -1,7 +1,17 @@
 <div class="panel panel-default">
-  <div class="panel-heading"><h3>Transactions</h3></div>
+  <div class="panel-heading">
 
-  <h2 ng-if="transactions.length === 0">Start Trading!</h2>
+  <select ng-model="view" ng-change="changeView(view)" class="pull-right">
+    <option value="home.transactions">Transactions</option>
+    <option value="home.trade">Trade</option>
+    <option value="home.portfolio">Portfolio</option>
+  </select>
+
+  <h3>Transactions</h3>
+
+  </div>
+
+  <h2 ng-if="transactions.length === 0">No Transactions. Start Trading!</h2>
 
   <div class="panel-body ">
     <table class="table" ng-if="transactions.length > 0">

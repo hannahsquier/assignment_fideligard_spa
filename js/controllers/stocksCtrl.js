@@ -11,8 +11,8 @@ app.controller("stocksCtrl", ["$scope", "stocksService", "dateService", "_", fun
       $scope.$watch("dateInfo.currentDate", function() {
 
         $scope.deltaData = { "1": stocksService.getDelta($scope.dateInfo.currentDate, 1),
-                         "7": stocksService.getDelta($scope.dateInfo.currentDate, 7),
-                        "30": stocksService.getDelta($scope.dateInfo.currentDate, 30)}
+                         "7": stocksService.getDelta($scope.dateInfo.currentDate, 5),
+                        "30": stocksService.getDelta($scope.dateInfo.currentDate, 20)}
     })
 
 

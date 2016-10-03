@@ -63,21 +63,6 @@ app.factory("stocksService", ["$http", "$q", "_", function($http, $q, _) {
     return _stockData;
   }
 
-  var _getClosePrices = function(date) {
-    var closePrices = {};
-    for(var sym in _stockData){
-      for(var i in _stockData[sym]) {
-        tempDate = new Date(_stockData[sym][i]["Date"])
-
-        if(_datesMatch(tempDate, date)) {
-          closePrices[_stockData[sym][i]["Symbol"]] = _stockData[sym][i]["Close"]
-        }
-      }
-    }
-    return closePrices
-  }
-
-
   var _datesMatch = function(date1, date2) {
     return (date1.getFullYear() === date2.getFullYear() &&
             date1.getMonth() === date2.getMonth() &&
@@ -106,8 +91,8 @@ app.factory("stocksService", ["$http", "$q", "_", function($http, $q, _) {
     var pastDate = _getPastDate(currentDate, days);
 
     for(var sym in _stockObj){
-      var closePast = _stockObj[sym][_kabobify(pastDate)]["Close"];
-      var closeCurrent = _stockObj[sym][_kabobify(currentDate)]["Close"];
+      var closePast = getPrice(sym, pastDate)
+      var closeCurrent = getPrice(sym, currentDate)
 
       pastData[sym] = (closeCurrent - closePast);
 
@@ -115,6 +100,9 @@ app.factory("stocksService", ["$http", "$q", "_", function($http, $q, _) {
     return pastData;
   }
 
+  var getPrice = function(sym, date) {
+    return _stockObj[sym][_kabobify(date)]["Close"]
+  }
 
 
 
@@ -124,5 +112,6 @@ app.factory("stocksService", ["$http", "$q", "_", function($http, $q, _) {
     getStockData: getStockData,
     getDelta: getDelta,
     getStockObj: getStockObj,
+    getPrice: getPrice
   }
 }])

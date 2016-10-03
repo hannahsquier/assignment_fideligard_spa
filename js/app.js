@@ -24,17 +24,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
           controller: "stocksCtrl"
         },
 
-      "portfolio": {
-        templateUrl: "js/templates/portfolio.html",
-        controller: "portfolioCtrl"
-
+      "panel": {
+        templateUrl: "js/templates/panel.html",
       }
     }
   });
 
   $stateProvider.state("home.trade", {
     url: "trade",
-    params: {sym: "", date: "", price: "" },
+    params: {sym: "" },
     views: {
       "trade@home": {
         templateUrl: "js/templates/trade.html",
@@ -55,4 +53,19 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   });
+
+
+
+  $stateProvider.state("home.portfolio", {
+    url: "portfolio",
+    //params: {sym: "" },
+    views: {
+      "portfolio@home": {
+        templateUrl: "js/templates/portfolio.html",
+        controller: "portfolioCtrl"
+
+      }
+    }
+  });
+
 })
