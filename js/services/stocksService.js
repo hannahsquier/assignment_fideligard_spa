@@ -1,5 +1,6 @@
 app.factory("stocksService", ["$http", "$q", "_", function($http, $q, _) {
   var _stockData = [];
+  var _stockObj = {};
   var _dates = [];
 
  var _symbols = [
@@ -37,22 +38,43 @@ app.factory("stocksService", ["$http", "$q", "_", function($http, $q, _) {
     });
   }
 
+  var retrieveStockObj = function() {
+    var requests = [];
+    for(var s in _symbols) {
+      requests.push($http.get("/data/" + _symbols[s] + ".json"))
+    }
+    return $q.all(requests).then( function(response){
+      for (var i = 0 in response) {
+        _stockObj[response[i].data.query.results.quote[0].Symbol] = {}
+
+        for(var j in response[i].data.query.results.quote) {
+          _stockObj[response[i].data.query.results.quote[0].Symbol][response[i].data.query.results.quote[j].Date] =
+          response[i].data.query.results.quote[j]
+        }
+      }
+    })
+  };
+
+  var getStockObj = function() {
+    return _stockObj;
+  }
+
   var getStockData = function() {
     return _stockData;
   }
 
-  var _getOpenPrices = function(date) {
-    var openPrices = {};
+  var _getClosePrices = function(date) {
+    var closePrices = {};
     for(var sym in _stockData){
       for(var i in _stockData[sym]) {
         tempDate = new Date(_stockData[sym][i]["Date"])
 
         if(_datesMatch(tempDate, date)) {
-          openPrices[_stockData[sym][i]["Symbol"]] = _stockData[sym][i]["Open"]
+          closePrices[_stockData[sym][i]["Symbol"]] = _stockData[sym][i]["Close"]
         }
       }
     }
-    return openPrices
+    return closePrices
   }
 
 
@@ -64,45 +86,43 @@ app.factory("stocksService", ["$http", "$q", "_", function($http, $q, _) {
 
 
   var _getPastDate = function(date, days) {
-
-      var dates = [];
-      for(var i in _stockData[0]) {
-        dates.push(new Date(_stockData[0][i]["Date"] + "T22:56:02.038Z"))
-      }
-      dates = dates.reverse()
-
+    var dates = _.map(Object.keys(_stockObj.AAPL).sort(), function(elem) { return new Date(elem + "T22:56:02.038Z") })
     for(var i in dates) {
-      var tempDate = dates[i];
-      // console.log(date, tempDate)
-      if(_datesMatch(tempDate, date)) {  var count = i }
+      if(_datesMatch(dates[i], date)) { var index = i}
     }
+    return dates[index - days]
+  }
 
-    return dates[count - days]
+  var _kabobify = function(date) {
+    month = date.getMonth() + 1
+    day = date.getDate()
+    if(month / 10 < 1) { month = "0" + String(month)}
+    if(day / 10 < 1) { day = "0" + day}
+    return [date.getFullYear(), month, day ].join("-")
   }
 
   var getDelta = function(currentDate, days) {
     var pastData = {}
     var pastDate = _getPastDate(currentDate, days);
 
-    // new Date(currentDate)
-    // pastDate.setDate(pastDate.getDate() - days)
+    for(var sym in _stockObj){
+      var closePast = _stockObj[sym][_kabobify(pastDate)]["Close"];
+      var closeCurrent = _stockObj[sym][_kabobify(currentDate)]["Close"];
 
-    for(var sym in _stockData){
-      for(var i in _stockData[sym]) {
-        var symbol = _stockData[sym][i]["Symbol"]
-        var tempDate = new Date(_stockData[sym][i]["Date"]+ "T22:56:02.038Z");
+      pastData[sym] = (closeCurrent - closePast);
 
-        if(_datesMatch(tempDate, pastDate)) {
-           pastData[symbol] = (_getOpenPrices(currentDate)[symbol] - _getOpenPrices(pastDate)[symbol]);
-        }
-      }
     }
     return pastData;
   }
 
+
+
+
   return {
     retrieveStockData: retrieveStockData,
+    retrieveStockObj: retrieveStockObj,
     getStockData: getStockData,
     getDelta: getDelta,
+    getStockObj: getStockObj,
   }
 }])

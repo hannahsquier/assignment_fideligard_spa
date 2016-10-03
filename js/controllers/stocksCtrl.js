@@ -5,10 +5,16 @@ app.controller("stocksCtrl", ["$scope", "stocksService", "dateService", "_", fun
     $scope.dateInfo = dateService.getDateInfo();
     $scope.stockData = _.flattenDeep(stocksService.getStockData());
 
-    $scope.$watch("dateInfo.currentDate", function() {
-      $scope.deltaData = { "1": stocksService.getDelta($scope.dateInfo.currentDate, 1),
+    stocksService.retrieveStockObj().then (function() {
+      $scope.stockObj = stocksService.getStockObj()
+
+      $scope.$watch("dateInfo.currentDate", function() {
+
+        $scope.deltaData = { "1": stocksService.getDelta($scope.dateInfo.currentDate, 1),
                          "7": stocksService.getDelta($scope.dateInfo.currentDate, 7),
                         "30": stocksService.getDelta($scope.dateInfo.currentDate, 30)}
+    })
+
 
     })
   })

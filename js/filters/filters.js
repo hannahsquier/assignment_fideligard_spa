@@ -9,10 +9,6 @@ app.filter("filterByDate", function() {
       var month = parseInt(date[1])
       var day = parseInt(date[2])
 
-      // console.log(year, currentDate.getFullYear())
-      // console.log(month, currentDate.getMonth() + 1)
-      // console.log( day, currentDate.getDate())
-
       if(year === currentDate.getFullYear() &&
           month === currentDate.getMonth() + 1 &&
           day === currentDate.getDate()) {

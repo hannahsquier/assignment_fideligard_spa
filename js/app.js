@@ -9,7 +9,7 @@ app.factory("_", [ "$window", function($window) {
 }])
 
 app.config(function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/')
+  $urlRouterProvider.otherwise('/transactions')
 
   $stateProvider.state("home",{
     url: "/",
@@ -30,7 +30,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
       }
     }
-  })
+  });
 
   $stateProvider.state("home.trade", {
     url: "trade",
@@ -42,5 +42,17 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
       }
     }
-  })
+  });
+
+  $stateProvider.state("home.transactions", {
+    url: "transactions",
+    params: { date: "", sym: "", type: "", quantity: "", price:"" },
+    views: {
+      "transactions@home": {
+        templateUrl: "js/templates/transactions.html",
+        controller: "transactionsCtrl"
+
+      }
+    }
+  });
 })

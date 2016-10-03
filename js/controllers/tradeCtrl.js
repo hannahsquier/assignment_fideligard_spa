@@ -1,12 +1,14 @@
-app.controller("tradeCtrl", ["$scope", "stocksService", "$stateParams",  "tradeService", function($scope, stocksService,$stateParams, tradeService) {
-
-  stocksService.retrieveStockData().then( function() {
-
+app.controller("tradeCtrl", ["$scope", "tradeService", "$stateParams", "dateService", function($scope, tradeService, $stateParams, dateService) {
     var sym = $stateParams.sym
-    var date = $stateParams.date
+    // var date = $stateParams.date
     var price = $stateParams.price
-//    console.log(stocksService.getStockData())
 
-    $scope.tradeData = tradeService.getTradeData(sym, date, price)
+    $scope.dateInfo = dateService.getDateInfo();
+
+   $scope.$watch("dateInfo.currentDate", function() {
+    $scope.tradeData = tradeService.getTradeData(sym, $scope.dateInfo.currentDate, price)
+
   })
+    $scope.quantity = 10
+    $scope.type = "BUY"
 }])

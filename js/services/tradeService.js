@@ -4,12 +4,15 @@ app.factory("tradeService", ["stocksService", function(stocksService) {
   var getTradeData = function(sym, date, price) {
     _tradeData["Symbol"] = sym
     _tradeData["Date"] = date
-    _tradeData["Price"] = price;
+    _tradeData["Price"] = stocksService.getPrice(date)
     return _tradeData
   }
 
+  var getCurrent
+
+
   return {
+
     getTradeData: getTradeData
   }
-
-}]);
+}])

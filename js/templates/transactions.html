@@ -1,0 +1,27 @@
+<div class="panel panel-default">
+  <div class="panel-heading"><h3>Transactions</h3></div>
+
+  <h2 ng-if="transactions.length === 0">Start Trading!</h2>
+
+  <div class="panel-body ">
+    <table class="table" ng-if="transactions.length > 0">
+      <tr>
+        <th>Date</th>
+        <th>Symbol</th>
+        <th>Type</th>
+        <th>Quantity</th>
+        <th>Price</th>
+      </tr>
+
+      <tr ng-repeat="t in transactions">
+        <td>{{ t.date | date }}</td>
+        <td>{{ t.sym | uppercase }}</td>
+        <td>{{ t.type | uppercase }}</td>
+        <td>{{ t.quantity }}</td>
+        <td>{{ t.price | currency }}</td>
+
+      </tr>
+    </table>
+
+  </div>
+</div>

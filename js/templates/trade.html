@@ -1,28 +1,41 @@
-<h1>Trade</h1>
+<div class="panel panel-default">
+  <div class="panel-heading"><h3>Trade</h3></div>
 
-  <label>Stock Symbol:</label>
-  <input type="text" value="{{ tradeData.Symbol | uppercase }}" disabled>
+  <div class="panel-body ">
+    <label>Stock Symbol:</label>
+    <input type="text" value="{{ tradeData.Symbol | uppercase }}" disabled>
 
-  <br>
+    <br>
+    <label>Buy or Sell?</label>
+    <select ng-model="type">
+      <option value="buy">Buy</option>
+      <option value="sell">Sell</option>
+    </select>
+    <br>
 
-  <select>
-    <option>Buy</option>
-    <option>Sell</option>
-  </select>
-  <br>
+    <label>Num Shares</label>
+    <input type="number" value=10 ng-model="quantity">
+    <br>
 
-  <label>Num Shares</label>
-  <input type="number" value="100" ng-model="numShares">
-  <br>
-
-  <label>Date</label>
-  <input type="text" value="{{ tradeData.Date | date }}" disabled>
-  <br>
+    <label>Date</label>
+    <input type="text" value="{{ tradeData.Date | date }}" disabled>
+    <br>
 
 
-  <h5>Price: {{ tradeData['Price'] | currency }}</h5>
-  <h5>Cost: {{ tradeData['Price'] * numShares| currency }}</h5>
+    <h5>Price: {{ tradeData['Price'] | currency }}</h5>
+    <h5>Cost: {{  tradeData['Price'] * quantity | currency}}</h5>
 
-  <input type="submit" value="Place Order" class="btn btn-success">
+    <a ui-sref="home.transactions({
+    date: tradeData.Date,
+    sym: tradeData.Symbol,
+    type: type,
+    quantity: quantity,
+    price: tradeData['Price']
+    })"><input type="submit" value="Place Order" class="btn btn-success"></a>
+
+  </div>
+</div>
+
+
 
 
