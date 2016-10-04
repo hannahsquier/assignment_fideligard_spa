@@ -1,4 +1,4 @@
-app.factory("transactionsService", ["stocksService", "portfolioService", function(stocksService, portfolioService) {
+app.factory("transactionsService", ["stocksService", function(stocksService) {
 
   var _transactions = {};
   var _lastId = 0
@@ -15,9 +15,6 @@ app.factory("transactionsService", ["stocksService", "portfolioService", functio
       price: stocksService.getPrice(trans.sym, trans.date)
     };
 
-    if(trans.type === "buy") {
-      portfolioService.addStock(_transactions[String(_lastId)])
-    }
     _lastId++;
     return _transactions;
   };

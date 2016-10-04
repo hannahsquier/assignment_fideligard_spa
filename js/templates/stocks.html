@@ -4,30 +4,30 @@
   <div class="panel-body ">
   <table class="table">
     <tr>
-      <th>Symbol</th>
-      <th>Price</th>
-      <th>1 day</th>
-      <th>7 day</th>
-      <th>30 day</th>
-      <th>Trade?</th>
+      <th class="small">Symbol</th>
+      <th class="small">Price</th>
+      <th class="small">1 day</th>
+      <th class="small">7 day</th>
+      <th class="small">30 day</th>
+      <th class="small">Trade?</th>
 
     </tr>
 
     <tr ng-repeat="data in stockData | filterByDate: dateInfo.currentDate" >
-      <td>{{ data["Symbol"] | uppercase }}</td>
-      <td>{{ data["Open"]  | currency}}</td>
+      <td class="small">{{ data["Symbol"] | uppercase }}</td>
+      <td class="small">{{ data["Open"]  | currency}}</td>
 
-      <td ng-class="{neg: deltaData['1'][data['Symbol']] < 0}">
+      <td class="small" ng-class="{neg: deltaData['1'][data['Symbol']] < 0}">
         {{ deltaData["1"][data["Symbol"]] | currency}}
       </td>
-      <td ng-class="{neg: deltaData['7'][data['Symbol']] < 0}">
+      <td class="small" ng-class="{neg: deltaData['7'][data['Symbol']] < 0}">
         {{ deltaData["7"][data["Symbol"]] | currency}}
       </td>
-      <td ng-class="{neg: deltaData['30'][data['Symbol']]< 0}">
+      <td class="small" ng-class="{neg: deltaData['30'][data['Symbol']]< 0}">
         {{ deltaData["30"][data["Symbol"]] | currency}}
       </td>
 
-      <td><a ui-sref="home.trade({ sym: data['Symbol'] })">Trade</a></td>
+      <td class="small"><a ui-sref="home.trade({ sym: data['Symbol'] })">Trade</a></td>
     </tr>
   </table>
 

@@ -1,4 +1,4 @@
-app.controller("tradeCtrl", ["$scope", "tradeService", "$stateParams", "dateService", "viewService", "$state", function($scope, tradeService, $stateParams, dateService, viewService, $state) {
+app.controller("tradeCtrl", ["$scope", "tradeService", "$stateParams", "dateService", "viewService", "$state", "portfolioService", function($scope, tradeService, $stateParams, dateService, viewService,$state, portfolioService) {
     var sym = $stateParams.sym
     // var date = $stateParams.date
     // var price = $stateParams.price
@@ -9,9 +9,15 @@ app.controller("tradeCtrl", ["$scope", "tradeService", "$stateParams", "dateServ
       $scope.tradeData = tradeService.getTradeData(sym, $scope.dateInfo.currentDate)
 
     })
+    $scope.validate = function() {
+      $scope.validator = tradeService.validate($scope.quantity, $scope.type)
+    }
+
+    $scope.overallStats = portfolioService.getOverall();
 
     $scope.quantity = 10
-    $scope.type = "BUY"
+    $scope.type = "buy"
+    $scope.validator = tradeService.validate($scope.quantity, $scope.type)
 
     $scope.view = $state.current.name;
 

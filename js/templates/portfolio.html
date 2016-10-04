@@ -10,8 +10,9 @@
   <h3>Portfolio</h3>
 
 </div>
+  <h3>Bank: {{ overallStats.bank | currency }}</h3>
 
-  <table class="table">
+<!--   <table class="table">
     <tr>
 
       <th>Cost Basis</th>
@@ -25,33 +26,33 @@
     <tr ng-repeat="data in stockData | filterByDate: dateInfo.currentDate" >
 
     </tr>
-  </table>
+  </table> -->
 
   <table class="table" class="portfolio-table">
     <tr>
-      <th class="portfolio-table">Symbol</th>
-      <th class="portfolio-table">Quantity</th>
-      <th class="portfolio-table">Cost Basis</th>
-      <th class="portfolio-table">Current Value</th>
-      <th class="portfolio-table">Profit/Loss</th>
-      <th class="portfolio-table">Current Price</th>
-      <th class="portfolio-table">1 day</th>
-      <th class="portfolio-table">7 day</th>
-      <th class="portfolio-table">30 day</th>
-      <th class="portfolio-table">Trade?</th>
+      <th class="small">Symbol</th>
+      <th class="small">Quantity</th>
+      <!-- <th class="small">Cost Basis</th> -->
+      <th class="small">Current Value</th>
+      <th class="small">Profit/Loss</th>
+      <th class="small">Current Price</th>
+      <th class="small">1 day</th>
+      <th class="small">7 day</th>
+      <th class="small">30 day</th>
+      <th class="small">Trade?</th>
     </tr>
 
     <tr ng-repeat="stock in portfolio" >
-      <td class="portfolio-table">{{ stock.sym | uppercase }}</td>
-      <td class="portfolio-table">{{ stock.quantity }}</td>
-      <td class="portfolio-table">Cost Basis</td>
-      <td class="portfolio-table">{{ stock.stockInfo.currentPrice * stock.quantity | currency}}</td>
-      <td class="portfolio-table">{{ (stock.stockInfo.currentPrice - stock.buyPrice) * stock.quantity | currency }}</td>
-      <td class="portfolio-table">{{ stock.stockInfo.currentPrice | currency }}</td>
-      <td class="portfolio-table">{{ stock.stockInfo["1d"]  * stock.quantity | currency }}</td>
-      <td class="portfolio-table">{{ stock.stockInfo["7d"]  * stock.quantity | currency }}</td>
-      <td class="portfolio-table">{{ stock.stockInfo["30d"] * stock.quantity  | currency }}</td>
-      <td class="portfolio-table"><a ui-sref="home.trade({ sym: stock.sym })">Trade</a></td>
+      <td class="small">{{ stock.sym | uppercase }}</td>
+      <td class="small">{{ stock.quantity }}</td>
+      <!-- <td class="small">Cost Basis</td> -->
+      <td class="small">{{ stock.stockInfo.currentPrice * stock.quantity | currency}}</td>
+      <td class="small">{{ (stock.stockInfo.currentPrice - stock.buyPrice) * stock.quantity | currency }}</td>
+      <td class="small">{{ stock.stockInfo.currentPrice | currency }}</td>
+      <td class="small">{{ stock.stockInfo["1d"]  * stock.quantity | currency }}</td>
+      <td class="small">{{ stock.stockInfo["7d"]  * stock.quantity | currency }}</td>
+      <td class="small">{{ stock.stockInfo["30d"] * stock.quantity  | currency }}</td>
+      <td class="small"><a ui-sref="home.trade({ sym: stock.sym })">Trade</a></td>
     </tr>
   </table>
 

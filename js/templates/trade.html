@@ -14,37 +14,46 @@
 
 
   <div class="panel-body ">
+
+    <h3>Bank: {{ overallStats.bank | currency }}</h3>
+
     <label>Stock Symbol:</label>
-    <input type="text" value="{{ tradeData.Symbol | uppercase }}" disabled>
+    <input type="text" value="{{ tradeData.Symbol | uppercase }}" ng-model="tradeData.Symbol" ng-change="validate()" disabled>
 
     <br>
     <label>Buy or Sell?</label>
-    <select ng-model="type">
+    <select ng-change="validate()" ng-model="type">
       <option value="buy">Buy</option>
       <option value="sell">Sell</option>
     </select>
     <br>
 
     <label>Num Shares</label>
-    <input type="number" value=10 ng-model="quantity">
+    <input ng-change="validate()" type="number" min=0 value=10 ng-model="quantity">
     <br>
 
     <label>Date</label>
-    <input type="text" value="{{ tradeData.Date | date }}" disabled>
+    <input ng-change="validate()" type="date" value="{{ tradeData.Date | date }}" ng-model="tradeData.Date" disabled>
     <br>
 
 
     <h5>Price: {{ tradeData['Price'] | currency }}</h5>
     <h5>Cost: {{  tradeData['Price'] * quantity | currency}}</h5>
 
-    <a ui-sref="home.transactions({
-    date: tradeData.Date,
-    sym: tradeData.Symbol,
-    type: type,
-    quantity: quantity,
-    price: tradeData['Price']
-    })"><input type="submit" value="Place Order" class="btn btn-success"></a>
+    <h3 ng-if="validator.valid">Valid!</h3>
 
+    <h3 ng-if="!validator.valid">Not Valid!</h3>
+    <h6 ng-if="!validator.valid">{{ validator.message }}</h6>
+
+    <div ng-if="validator.valid">
+        <a  ui-sref="home.transactions({
+        date: tradeData.Date,
+        sym: tradeData.Symbol,
+        type: type,
+        quantity: quantity,
+        price: tradeData['Price']
+        })"><input type="submit" value="Place Order" class="btn btn-success"></a>
+    </div>
   </div>
 </div>
 

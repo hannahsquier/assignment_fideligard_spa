@@ -1,19 +1,37 @@
-app.factory("portfolioService", ["stocksService", function(stocksService) {
+app.factory("portfolioService", ["stocksService", "transactionsService", function(stocksService, transactionsService) {
 
   var _portfolio = {}
+  var _overall = { bank: 1000 }
 
 
-  var addStock = function(stock) {
+  var _addTransaction = function(trans, date) {
 
-    if(_portfolio[stock.sym]) {
-      _addToExistingStock(stock)
-    } else {
-      _addNewStock(stock)
+    if(_portfolio[trans.sym] && trans.type === "buy") {
+      _addToExistingStock(trans, date)
+    } else if(trans.type === "buy") {
+      _addNewStock(trans, date)
+
+    } else if (trans.type === "sell") {
+      _sellStock(trans, date)
+
     }
-
+    return _portfolio
   }
 
-  var _addNewStock = function(stock) {
+  var _sellStock = function(stock, date) {
+      _overall.bank += (stocksService.getPrice(stock.sym, date) - _portfolio[stock.sym].buyPrice) * stock.quantity
+
+    if(stock.quantity === _portfolio[stock.sym].quantity) {
+      delete _portfolio[stock.sym]
+    } else {
+      _portfolio[stock.sym].quantity -= stock.quantity
+    }
+  }
+
+  var _addNewStock = function(stock, date) {
+
+     _overall.bank -= stock.quantity * stocksService.getPrice(stock.sym, stock.date)
+
     _portfolio[stock.sym] = {
       sym: stock.sym,
       quantity: stock.quantity,
@@ -22,10 +40,10 @@ app.factory("portfolioService", ["stocksService", function(stocksService) {
       transactions: [stock.id],
       buyPrice: stocksService.getPrice(stock.sym, stock.date),
       stockInfo: {
-        currentPrice: stocksService.getPrice(stock.sym, stock.date),
-        "1d": stocksService.getDelta(stock.date, 1)[stock.sym],
-        "7d": stocksService.getDelta(stock.date, 5)[stock.sym],
-        "30d": stocksService.getDelta(stock.date, 20)[stock.sym],
+        currentPrice: stocksService.getPrice(stock.sym, date),
+        "1d": stocksService.getDelta(date, 1)[stock.sym],
+        "7d": stocksService.getDelta(date, 5)[stock.sym],
+        "30d": stocksService.getDelta(date, 20)[stock.sym],
       }
     }
   }
@@ -36,37 +54,37 @@ app.factory("portfolioService", ["stocksService", function(stocksService) {
     var oldBuyPrice = _portfolio[stock.sym].buyPrice
     var newBuyPrice =  stocksService.getPrice(stock.sym, stock.date)
 
+    _overall.bank -= newQuantity * newBuyPrice
+
     _portfolio[stock.sym].buyPrice =  (oldQuantity * oldBuyPrice + newQuantity * newBuyPrice) / (oldQuantity + newQuantity)
     _portfolio[stock.sym].quantity += newQuantity
-    console.log(_portfolio.transactions)
     _portfolio[stock.sym].transactions.push(stock.id)
   }
 
+  var buildPortfolioFromTransactions = function(currentDate) {
+    _portfolio = {}
+    _overall = { bank: 1000 }
 
-  var updatePortfolio = function(date) {
-    for(var stock in _portfolio) {
-      _portfolio[stock].stockInfo = {
-        currentPrice: stocksService.getPrice(_portfolio[stock].sym, date),
-        "1d": stocksService.getDelta(date, 1)[_portfolio[stock].sym],
-        "7d": stocksService.getDelta(date, 5)[_portfolio[stock].sym],
-        "30d": stocksService.getDelta(date, 20)[_portfolio[stock].sym],
+    var transactions = transactionsService.getTransactions();
+    for(var t in transactions) {
+      if(transactions[t].date <= currentDate) {
+         _addTransaction(transactions[t], currentDate)
       }
     }
-    return _portfolio
-  }
-
-  var buildPortfolioFromTransactions = function(transactions) {
-
   }
 
   var getPortfolio = function() {
     return _portfolio
   }
 
+  var getOverall = function() {
+    return _overall
+  };
+
   return {
-    addStock: addStock,
+    buildPortfolioFromTransactions: buildPortfolioFromTransactions,
     getPortfolio: getPortfolio,
-    updatePortfolio: updatePortfolio
+    getOverall: getOverall
   }
 
 }]);

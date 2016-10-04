@@ -7,9 +7,15 @@ app.controller("portfolioCtrl", ["$scope", "$state", "viewService", "portfolioSe
 
   $scope.portfolio = _.values(portfolioService.getPortfolio());
 
+  $scope.overallStats = portfolioService.getOverall();
   $scope.dateInfo = dateService.getDateInfo();
 
+
   $scope.$watch("dateInfo.currentDate", function() {
-    $scope.portfolio = _.values(portfolioService.updatePortfolio($scope.dateInfo.currentDate));
+   new Promise(function() {
+    portfolioService.buildPortfolioFromTransactions($scope.dateInfo.currentDate)}).then(
+      $scope.portfolio = _.values(portfolioService.getPortfolio())).then(
+      $scope.overallStats = portfolioService.getOverall()
+    );
   })
 }])
